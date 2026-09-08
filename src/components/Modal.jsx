@@ -1,14 +1,11 @@
-import { useEffect, useCallback, useRef, useState } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 
 const WHATSAPP_NUMBER = '5491160593598'
-const DEBUG = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('debug') === '1'
 
 export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   const obra = obras[selectedIndex]
   const touchStartX = useRef(null)
-  const panelRef = useRef(null)
-  const imgRef = useRef(null)
-  const [debugInfo, setDebugInfo] = useState(null)
+  const scrollerRef = useRef(null)
 
   const navigate = useCallback((dir) => {
     const next = selectedIndex + dir
@@ -42,35 +39,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   }
 
   useEffect(() => {
-    if (!DEBUG) return
-    const measure = () => {
-      const p = panelRef.current?.getBoundingClientRect()
-      const im = imgRef.current?.getBoundingClientRect()
-      if (!p || !im) return
-      setDebugInfo({
-        innerH: window.innerHeight,
-        vvH: window.visualViewport?.height?.toFixed(1),
-        vvOffsetTop: window.visualViewport?.offsetTop?.toFixed(1),
-        docClientH: document.documentElement.clientHeight,
-        panelTop: p.top.toFixed(1),
-        panelH: p.height.toFixed(1),
-        imgTop: im.top.toFixed(1),
-        imgH: im.height.toFixed(1),
-        gapAbove: (im.top - p.top).toFixed(1),
-        gapBelow: (p.bottom - im.bottom).toFixed(1),
-      })
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    window.visualViewport?.addEventListener('resize', measure)
-    window.visualViewport?.addEventListener('scroll', measure)
-    const t = setTimeout(measure, 500)
-    return () => {
-      window.removeEventListener('resize', measure)
-      window.visualViewport?.removeEventListener('resize', measure)
-      window.visualViewport?.removeEventListener('scroll', measure)
-      clearTimeout(t)
-    }
+    scrollerRef.current?.scrollTo({ top: 0 })
   }, [selectedIndex])
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
@@ -125,25 +94,20 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
       )}
 
       <div
+        ref={scrollerRef}
         className="relative bg-canvas w-full h-full md:h-auto md:max-w-4xl md:max-h-[92vh] md:flex md:rounded-sm shadow-2xl overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
         {/* Image panel */}
-        <div ref={panelRef} className="md:w-[62%] h-[58dvh] md:h-auto md:max-h-[92vh] bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
+        <div className="md:w-[62%] h-[58dvh] md:h-auto md:max-h-[92vh] bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
           <img
-            ref={imgRef}
             key={obra.id}
             src={obra.imagen}
             alt={obra.titulo}
             className="max-w-full max-h-full w-auto h-auto object-contain"
           />
-          {DEBUG && debugInfo && (
-            <pre className="absolute top-1 left-1 z-30 bg-black/85 text-lime-300 text-[10px] leading-tight p-2 font-mono whitespace-pre pointer-events-none">
-              {JSON.stringify(debugInfo, null, 1)}
-            </pre>
-          )}
           {/* Dot indicators — mobile only */}
           <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
             {obras.map((_, i) => (
