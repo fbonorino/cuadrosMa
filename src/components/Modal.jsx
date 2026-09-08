@@ -95,7 +95,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
         onTouchEnd={handleTouchEnd}
       >
         {/* Image panel */}
-        <div className="md:w-[62%] h-[58vh] md:h-auto md:max-h-[92vh] bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
+        <div className="md:w-[62%] h-[58dvh] md:h-auto md:max-h-[92vh] bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
           <img
             key={obra.id}
             src={obra.imagen}
