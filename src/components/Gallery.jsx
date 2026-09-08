@@ -1,7 +1,7 @@
 export default function Gallery({ obras, onSelect }) {
   return (
-    <main className="px-4 py-8 md:px-8 md:py-12 lg:px-16">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
+    <main className="px-4 py-8 md:px-10 md:py-14 lg:px-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12 md:gap-x-16 md:gap-y-16">
         {obras.map((obra, index) => (
           <GalleryCard key={obra.id} obra={obra} onSelect={() => onSelect(index)} />
         ))}
@@ -20,7 +20,7 @@ function GalleryCard({ obra, onSelect }) {
       onKeyDown={(e) => e.key === 'Enter' && onSelect()}
       aria-label={`Ver detalle de ${obra.titulo}`}
     >
-      <div className="overflow-hidden rounded-sm aspect-[4/5] bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] relative">
+      <div className="overflow-hidden rounded-sm aspect-[2/3] bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06]">
         <img
           src={obra.imagen}
           alt={obra.titulo}
@@ -28,16 +28,20 @@ function GalleryCard({ obra, onSelect }) {
           loading="lazy"
           decoding="async"
         />
+      </div>
+      <div className="mt-4 flex items-baseline justify-between gap-3">
+        <p className="font-serif text-lg md:text-xl text-carbon tracking-wide leading-snug">
+          {obra.titulo}
+        </p>
         {!obra.disponible && (
-          <div className="absolute top-0 right-0 overflow-hidden w-24 h-24 pointer-events-none">
-            <div className="absolute top-[18px] right-[-26px] w-[110px] rotate-45 bg-red-800 text-white text-[9px] font-sans tracking-[0.18em] uppercase text-center py-[5px] shadow-md">
-              Vendido
-            </div>
-          </div>
+          <span className="shrink-0 font-sans text-[10px] text-red-800 tracking-[0.18em] uppercase">
+            Vendido
+          </span>
         )}
       </div>
-      <p className="mt-3 font-serif text-base md:text-sm text-carbon tracking-wide leading-snug">
-        {obra.titulo}
+      <p className="mt-1 font-sans text-xs text-gray-400 tracking-wide">
+        {obra.tecnica}
+        {obra.medidas && <>{' · '}{obra.medidas}</>}
       </p>
     </article>
   )

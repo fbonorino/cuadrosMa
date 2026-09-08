@@ -21,7 +21,7 @@ typography:
     letterSpacing: "0.02em"
   title:
     fontFamily: "\"Playfair Display\", Georgia, serif"
-    fontSize: "clamp(0.875rem, 1vw, 1rem)"
+    fontSize: "clamp(1.125rem, 1.6vw, 1.25rem)"
     fontWeight: 400
     lineHeight: 1.3
     letterSpacing: "0.02em"
@@ -45,13 +45,15 @@ rounded:
   sm: "2px"
   full: "9999px"
 spacing:
-  card-gap: "20px"
-  card-gap-md: "24px"
+  card-gap-x: "40px"
+  card-gap-x-md: "64px"
+  card-gap-y: "48px"
+  card-gap-y-md: "64px"
   section-y: "32px"
-  section-y-md: "48px"
+  section-y-md: "56px"
   container-x-sm: "16px"
-  container-x-md: "32px"
-  container-x-lg: "64px"
+  container-x-md: "40px"
+  container-x-lg: "80px"
 components:
   button-primary:
     backgroundColor: "{colors.carbon}"
@@ -66,12 +68,15 @@ components:
     backgroundColor: "{colors.hairline}"
     textColor: "{colors.muted-label}"
     rounded: "{rounded.none}"
-  badge-sold:
+  badge-sold-pill:
     backgroundColor: "{colors.sold-red}"
     textColor: "#FFFFFF"
     typography: "{typography.label}"
     rounded: "{rounded.none}"
     padding: "4px 12px"
+  badge-sold-inline:
+    textColor: "{colors.sold-red}"
+    typography: "{typography.label}"
   gallery-card:
     backgroundColor: "{colors.card-surface}"
     rounded: "{rounded.sm}"
@@ -93,6 +98,7 @@ The type system reinforces the same restraint: a serif (Playfair Display) is res
 - Nearly flat: a whisper-soft shadow and a hairline ring are the only depth cues
 - Square-cornered by default (buttons, badges have zero radius); `rounded-sm` (2px) softens only image containers, never fully rounds them
 - One reserved status color (deep red) exists solely to mark a painting sold — never reused decoratively
+- A sparse, never-more-than-2-column grid of large 2:3 portrait plates, each captioned with title, sold status, and técnica/medidas — every painting is a room-sized moment, not a thumbnail
 
 ## Colors
 
@@ -102,7 +108,7 @@ Warm and deliberately quiet: paper-and-ink neutrals dominate so nothing competes
 - **Carbon** (`#1C1C1A`): the system's only "ink." Headlines, body text, primary button background, active dot indicators. Reads as near-black, not pure black — softer, warmer.
 
 ### Secondary
-- **Sold Red** (`#991B1B`): reserved exclusively for the "Vendido" (sold) ribbon and pill badge. Never used for links, buttons, or any other UI state — its rarity is what makes it legible as a status marker rather than a brand accent.
+- **Sold Red** (`#991B1B`): reserved exclusively for the "Vendido" (sold) marker — an inline text label in the grid, a filled pill in the detail view. Never used for links, buttons, or any other UI state — its rarity is what makes it legible as a status marker rather than a brand accent.
 
 ### Neutral
 - **Canvas** (`#FAFAF8`): the page background and primary CTA text color — warm off-white, like paper rather than screen-white.
@@ -137,7 +143,10 @@ Warm and deliberately quiet: paper-and-ink neutrals dominate so nothing competes
 
 Mobile-first, generously padded, no hard-centered max-width container — the grid simply grows its horizontal padding at each breakpoint (16px → 32px → 64px) rather than capping content width. Vertical rhythm is generous: 32px section padding on mobile, stepping to 48px on desktop.
 
-The gallery is a responsive grid: 2 columns on mobile, 3 at `sm`, 4 at `lg`, with a 20px gap that opens to 24px at `md`. The detail/lightbox view splits into a 62% image / 38% info two-panel layout on desktop (`md:flex`), collapsing to a full-bleed stacked view with a sticky bottom CTA on mobile — the info panel's action button stays reachable while photos and description scroll underneath it.
+The gallery is a deliberately sparse grid: a single column on mobile, 2 columns from `sm` up — never more. Each painting gets room to read as a plate rather than a thumbnail: a 40px horizontal / 48px vertical gap opening to 64px at `md`. The detail/lightbox view splits into a 62% image / 38% info two-panel layout on desktop (`md:flex`), collapsing to a full-bleed stacked view with a sticky bottom CTA on mobile — the info panel's action button stays reachable while photos and description scroll underneath it.
+
+### Named Rules
+**The Two-Column Ceiling Rule.** The gallery never exceeds 2 columns, at any breakpoint. Density is not a growth lever here — more paintings means a longer page, never smaller plates.
 
 ## Elevation & Depth
 
@@ -153,7 +162,7 @@ Nearly flat. The system does not build a layered elevation scale; it uses one so
 
 ## Shapes
 
-Square by default, softened only where an image needs to feel contained rather than cut off. Buttons, badges, and the "Vendido" pill carry zero border-radius — deliberately blunt, almost like a printed label. Gallery thumbnails and the modal panel use `rounded-sm` (2px), just enough to remove a hard edge without reading as "rounded UI." Full-round (`rounded-full`) is reserved for the tiniest elements only — the mobile lightbox's dot-pagination indicators.
+Square by default, softened only where an image needs to feel contained rather than cut off. Buttons and the "Vendido" pill carry zero border-radius — deliberately blunt, almost like a printed label. Gallery thumbnails and the modal panel use `rounded-sm` (2px), just enough to remove a hard edge without reading as "rounded UI." Full-round (`rounded-full`) is reserved for the tiniest elements only — the mobile lightbox's dot-pagination indicators.
 
 ## Components
 
@@ -164,16 +173,17 @@ Square by default, softened only where an image needs to feel contained rather t
 - **Disabled (sold-out state):** hairline background, muted-label text, `cursor-default`, no hover treatment — visually inert on purpose, so it reads as unavailable rather than clickable-but-broken.
 
 ### Badge (Sold)
-- **Ribbon variant** (gallery card): a diagonal 45°-rotated red-800 strip pinned to the card's top-right corner, white uppercase micro-type — a physical "sold sticker" gesture.
+- **Inline variant** (gallery card): plain sold-red uppercase Label text ("Vendido"), set beside the painting's title, no background or border — a status word, not a sticker.
 - **Pill variant** (detail view): the same red-800/white/uppercase treatment as an inline `px-3 py-1` pill with a small checkmark icon, sitting beside the painting title.
 - **Rule:** this red never appears anywhere else in the system — not as a link color, not as an error state, not as an accent.
 
-### Cards (Gallery Thumbnail)
+### Cards (Gallery Plate)
 - **Corner Style:** `rounded-sm` (2px).
-- **Background:** Card Surface (#F9FAFB), visible as letterboxing behind non-4:5 images.
+- **Aspect Ratio:** `2/3`, portrait — every painting reads as a plate, not a thumbnail.
+- **Background:** Card Surface (#F9FAFB), visible as letterboxing behind non-2:3 images.
 - **Shadow Strategy:** Card Lift (see Elevation).
-- **Interaction:** image scales to 1.04 on hover/focus over a 300ms ease-out; unavailable (sold) works render at 88% brightness so the ribbon reads as a real status change, not just a label.
-- **Caption:** serif Title directly beneath the image, no card border or background block — the caption floats on the page background, not inside a card shell.
+- **Interaction:** image scales to 1.04 on hover/focus over a 300ms ease-out; unavailable (sold) works render at 88% brightness.
+- **Caption block:** serif Title beside the inline "Vendido" label (when unavailable) on one baseline, with técnica + medidas as Label-weight meta text directly beneath — visible while browsing, not only on click. No card border or background block — the caption floats on the page background, not inside a card shell.
 
 ### Modal / Lightbox
 - **Scrim:** `bg-black/70` with `backdrop-blur-sm`, closes on click-outside.
@@ -189,8 +199,10 @@ Square by default, softened only where an image needs to feel contained rather t
 
 ### Do:
 - **Do** keep every saturated color confined to the artwork photography itself — the interface stays neutral.
-- **Do** use red-800 exclusively for the "Vendido" (sold) marker, in either its ribbon or pill form.
-- **Do** keep buttons and badges at 0px radius while image containers and the modal stay at `rounded-sm` (2px) — the contrast between "sharp label" and "softened image" is intentional.
+- **Do** use red-800 exclusively for the "Vendido" (sold) marker, as inline text in the grid or a filled pill in the detail view.
+- **Do** keep buttons and the sold pill at 0px radius while image containers and the modal stay at `rounded-sm` (2px) — the contrast between "sharp label" and "softened image" is intentional.
+- **Do** keep the gallery to 2 columns maximum, at every breakpoint, with 2:3 portrait plates — this is a room of large paintings, not a dense thumbnail wall.
+- **Do** show técnica + medidas as visible meta text under every gallery caption, not only inside the detail view.
 - **Do** reserve Playfair Display for names and titles only; everything else stays in Inter.
 - **Do** keep shadows soft and static (Card Lift / Floating Control / Overlay) — no hover-elevation animation beyond image scale and color transitions.
 

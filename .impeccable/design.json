@@ -52,7 +52,7 @@
     "typographyMeta": {
       "headline": { "displayName": "Headline", "purpose": "Artist name in the site header — the only page-level display moment." },
       "detailHeadline": { "displayName": "Detail Headline", "purpose": "A painting's title inside the lightbox/detail view." },
-      "title": { "displayName": "Title", "purpose": "A painting's title as a gallery-grid caption; deliberately smaller than mobile at desktop widths." },
+      "title": { "displayName": "Title", "purpose": "A painting's title as a gallery-grid caption, set beside its inline sold label." },
       "body": { "displayName": "Body", "purpose": "Painting descriptions and detail copy." },
       "label": { "displayName": "Label", "purpose": "Uppercase micro-labels: dt-labels, tagline, nav links, sold badge text." }
     },
@@ -89,17 +89,17 @@
       "css": ".ds-btn-disabled { display: flex; align-items: center; justify-content: center; width: 100%; padding: 16px 24px; background: #F3F4F6; color: #9CA3AF; font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; letter-spacing: 0.02em; border-radius: 0; cursor: default; user-select: none; }"
     },
     {
-      "name": "Sold Badge (Ribbon)",
+      "name": "Sold Label (Inline)",
       "kind": "chip",
-      "refersTo": "badge-sold",
-      "description": "Diagonal 'Vendido' ribbon pinned to a gallery card's top-right corner.",
-      "html": "<div class=\"ds-badge-ribbon-wrap\"><div class=\"ds-badge-ribbon\">Vendido</div></div>",
-      "css": ".ds-badge-ribbon-wrap { position: absolute; top: 0; right: 0; overflow: hidden; width: 96px; height: 96px; pointer-events: none; } .ds-badge-ribbon { position: absolute; top: 18px; right: -26px; width: 110px; transform: rotate(45deg); background: #991B1B; color: #fff; font-family: Inter, system-ui, sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-align: center; padding: 5px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }"
+      "refersTo": "badge-sold-inline",
+      "description": "Plain-text 'Vendido' status set beside the painting title in the gallery grid.",
+      "html": "<span class=\"ds-badge-inline\">Vendido</span>",
+      "css": ".ds-badge-inline { font-family: Inter, system-ui, sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #991B1B; }"
     },
     {
       "name": "Sold Badge (Pill)",
       "kind": "chip",
-      "refersTo": "badge-sold",
+      "refersTo": "badge-sold-pill",
       "description": "Inline sold-status pill shown beside a painting's title in the detail view.",
       "html": "<span class=\"ds-badge-pill\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z\"/></svg>Vendido</span>",
       "css": ".ds-badge-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: #991B1B; color: #fff; font-family: Inter, system-ui, sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 0; }"
@@ -108,9 +108,9 @@
       "name": "Gallery Card",
       "kind": "card",
       "refersTo": "gallery-card",
-      "description": "A single painting thumbnail: image, quiet lift shadow, serif caption beneath.",
-      "html": "<article class=\"ds-gallery-card\"><div class=\"ds-gallery-card-frame\"><img class=\"ds-gallery-card-img\" src=\"[painting-image]\" alt=\"[painting-title]\"></div><p class=\"ds-gallery-card-caption\">[Painting Title]</p></article>",
-      "css": ".ds-gallery-card { cursor: pointer; } .ds-gallery-card-frame { overflow: hidden; border-radius: 2px; aspect-ratio: 4 / 5; background: #F9FAFB; box-shadow: 0 2px 14px rgba(0,0,0,0.10); outline: 1px solid rgba(0,0,0,0.06); outline-offset: -1px; } .ds-gallery-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease-out; } .ds-gallery-card:hover .ds-gallery-card-img { transform: scale(1.04); } .ds-gallery-card-caption { margin-top: 12px; font-family: \"Playfair Display\", Georgia, serif; font-size: 0.9rem; color: #1C1C1A; letter-spacing: 0.02em; line-height: 1.3; }"
+      "description": "A single painting plate: 2:3 portrait image, quiet lift shadow, serif title + inline sold label, técnica/medidas meta line beneath.",
+      "html": "<article class=\"ds-gallery-card\"><div class=\"ds-gallery-card-frame\"><img class=\"ds-gallery-card-img\" src=\"[painting-image]\" alt=\"[painting-title]\"></div><div class=\"ds-gallery-card-row\"><p class=\"ds-gallery-card-caption\">[Painting Title]</p><span class=\"ds-badge-inline\">Vendido</span></div><p class=\"ds-gallery-card-meta\">[Técnica] · [Medidas]</p></article>",
+      "css": ".ds-gallery-card { cursor: pointer; } .ds-gallery-card-frame { overflow: hidden; border-radius: 2px; aspect-ratio: 2 / 3; background: #F9FAFB; box-shadow: 0 2px 14px rgba(0,0,0,0.10); outline: 1px solid rgba(0,0,0,0.06); outline-offset: -1px; } .ds-gallery-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease-out; } .ds-gallery-card:hover .ds-gallery-card-img { transform: scale(1.04); } .ds-gallery-card-row { margin-top: 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; } .ds-gallery-card-caption { font-family: \"Playfair Display\", Georgia, serif; font-size: 1.125rem; color: #1C1C1A; letter-spacing: 0.02em; line-height: 1.3; } .ds-gallery-card-meta { margin-top: 4px; font-family: Inter, system-ui, sans-serif; font-size: 0.75rem; color: #9CA3AF; letter-spacing: 0.02em; }"
     },
     {
       "name": "Uppercase Label Link",
@@ -129,19 +129,23 @@
       "Serif reserved strictly for names/titles; sans for everything else, often uppercase and letter-spaced",
       "Nearly flat: a whisper-soft shadow and a hairline ring are the only depth cues",
       "Square-cornered by default (buttons, badges have zero radius); rounded-sm (2px) softens only image containers, never fully rounds them",
-      "One reserved status color (deep red) exists solely to mark a painting sold — never reused decoratively"
+      "One reserved status color (deep red) exists solely to mark a painting sold — never reused decoratively",
+      "A sparse, never-more-than-2-column grid of large 2:3 portrait plates, each captioned with title, sold status, and técnica/medidas"
     ],
     "rules": [
       { "name": "The One Saturated Color Rule", "body": "Across the entire interface, red-800 is the only non-neutral color, and it appears only on the \"Vendido\" marker. No other status, link, or accent color exists — if something needs emphasis, it gets weight or size, not color.", "section": "colors" },
       { "name": "The Proper-Noun Serif Rule", "body": "Playfair Display appears only where something is being named — the artist, a painting title. It never appears in labels, buttons, or body copy; Inter owns all of that.", "section": "typography" },
-      { "name": "The Whisper-Lift Rule", "body": "Elevation exists to separate artwork from background, never to add visual drama. If a shadow is noticeable before the content it's lifting, it's too heavy for this system.", "section": "elevation" }
+      { "name": "The Whisper-Lift Rule", "body": "Elevation exists to separate artwork from background, never to add visual drama. If a shadow is noticeable before the content it's lifting, it's too heavy for this system.", "section": "elevation" },
+      { "name": "The Two-Column Ceiling Rule", "body": "The gallery never exceeds 2 columns, at any breakpoint. Density is not a growth lever here — more paintings means a longer page, never smaller plates.", "section": "layout" }
     ],
     "dos": [
       "Do keep every saturated color confined to the artwork photography itself — the interface stays neutral.",
-      "Do use red-800 exclusively for the \"Vendido\" (sold) marker, in either its ribbon or pill form.",
-      "Do keep buttons and badges at 0px radius while image containers and the modal stay at rounded-sm (2px) — the contrast between \"sharp label\" and \"softened image\" is intentional.",
+      "Do use red-800 exclusively for the \"Vendido\" (sold) marker, as inline text in the grid or a filled pill in the detail view.",
+      "Do keep buttons and the sold pill at 0px radius while image containers and the modal stay at rounded-sm (2px) — the contrast between \"sharp label\" and \"softened image\" is intentional.",
       "Do reserve Playfair Display for names and titles only; everything else stays in Inter.",
-      "Do keep shadows soft and static (Card Lift / Floating Control / Overlay) — no hover-elevation animation beyond image scale and color transitions."
+      "Do keep shadows soft and static (Card Lift / Floating Control / Overlay) — no hover-elevation animation beyond image scale and color transitions.",
+      "Do keep the gallery to 2 columns maximum, at every breakpoint, with 2:3 portrait plates.",
+      "Do show técnica + medidas as visible meta text under every gallery caption, not only inside the detail view."
     ],
     "donts": [
       "Don't introduce a second accent or brand color — the palette is deliberately down to near-black, near-white, and one reserved status red.",
