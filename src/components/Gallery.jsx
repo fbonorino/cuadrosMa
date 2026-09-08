@@ -1,7 +1,7 @@
 export default function Gallery({ obras, onSelect }) {
   return (
     <main className="px-4 py-8 md:px-10 md:py-14 lg:px-20">
-      <div className="columns-1 sm:columns-2 gap-x-10 md:gap-x-16">
+      <div className="flex flex-col gap-16 md:gap-24 max-w-4xl mx-auto">
         {obras.map((obra, index) => (
           <GalleryCard key={obra.id} obra={obra} onSelect={() => onSelect(index)} />
         ))}
@@ -13,7 +13,7 @@ export default function Gallery({ obras, onSelect }) {
 function GalleryCard({ obra, onSelect }) {
   return (
     <article
-      className="group cursor-pointer break-inside-avoid mb-16 md:mb-24"
+      className="group cursor-pointer"
       onClick={onSelect}
       role="button"
       tabIndex={0}
@@ -21,6 +21,11 @@ function GalleryCard({ obra, onSelect }) {
       aria-label={`Ver detalle de ${obra.titulo}`}
     >
       <div className="relative overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] transition-shadow duration-300 ease-out group-hover:shadow-[0_10px_30px_rgba(0,0,0,0.16)]">
+        {!obra.disponible && (
+          <span className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 bg-red-800 text-white text-[11px] font-sans font-semibold tracking-[0.18em] uppercase shadow-md">
+            Vendido
+          </span>
+        )}
         <img
           src={obra.imagen}
           alt={obra.titulo}
@@ -44,13 +49,6 @@ function GalleryCard({ obra, onSelect }) {
         <p className="font-sans text-xs text-gray-400 tracking-wide">
           {obra.tecnica}
           {obra.medidas && <>{' · '}{obra.medidas}</>}
-        </p>
-        <p
-          className={`font-sans text-[10px] tracking-[0.2em] uppercase ${
-            obra.disponible ? 'text-gray-400' : 'text-red-800'
-          }`}
-        >
-          {obra.disponible ? 'Disponible' : 'Vendido'}
         </p>
       </div>
     </article>
