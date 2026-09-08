@@ -121,6 +121,12 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
             <h2 className="font-serif text-2xl md:text-3xl text-carbon leading-tight">
               {obra.titulo}
             </h2>
+            {!obra.disponible && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-800 text-white text-[10px] font-sans tracking-[0.18em] uppercase">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Vendido
+              </span>
+            )}
             <dl className="space-y-4 text-sm font-sans text-gray-500">
               <div>
                 <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Técnica</dt>
@@ -132,20 +138,33 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
                   <dd className="text-carbon">{obra.medidas}</dd>
                 </div>
               )}
+              {obra.descripcion && (
+                <div>
+                  <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Descripción</dt>
+                  <dd className="text-carbon leading-relaxed">{obra.descripcion}</dd>
+                </div>
+              )}
             </dl>
           </div>
 
           {/* Sticky on mobile, normal flow on desktop */}
           <div className="sticky bottom-0 md:static px-6 pb-6 pt-4 md:p-0 bg-canvas md:bg-transparent border-t border-gray-100 md:border-0">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-carbon text-canvas text-sm font-sans tracking-wide hover:bg-gray-800 active:bg-gray-900 transition-colors duration-150"
-            >
-              <WhatsAppIcon />
-              Consultar por WhatsApp
-            </a>
+            {obra.disponible ? (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-carbon text-canvas text-sm font-sans tracking-wide hover:bg-gray-800 active:bg-gray-900 transition-colors duration-150"
+              >
+                <WhatsAppIcon />
+                Consultar por WhatsApp
+              </a>
+            ) : (
+              <div className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-gray-100 text-gray-400 text-sm font-sans tracking-wide cursor-default select-none">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                Esta obra ya no está disponible
+              </div>
+            )}
           </div>
         </div>
       </div>
