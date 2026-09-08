@@ -38,7 +38,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   }
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    `Hola! Quería consultar por el cuadro "${obra.titulo}"`
+    `Hola! Vi el cuadro "${obra.titulo}" en Galería Bellomo y quería consultar por él.`
   )}`
 
   const hasPrev = selectedIndex > 0

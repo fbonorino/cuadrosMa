@@ -1,6 +1,9 @@
 export default function Header() {
   return (
     <header className="py-8 md:py-12 px-6 text-center border-b border-gray-100">
+      <p className="font-sans text-[11px] md:text-xs text-gray-400 tracking-[0.3em] uppercase mb-2 md:mb-3">
+        Galería Bellomo
+      </p>
       <h1 className="font-serif text-3xl md:text-5xl tracking-wide text-carbon mb-2 md:mb-3">
         Constanza Bellomo
       </h1>
