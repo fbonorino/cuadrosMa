@@ -50,13 +50,13 @@ export default function Modal({ obra, onClose }) {
           <img
             src={obra.imagen}
             alt={obra.titulo}
-            className="w-full object-contain max-h-[55vh] md:max-h-[92vh]"
+            className="w-full object-contain max-h-[58vh] md:max-h-[92vh]"
           />
         </div>
 
-        {/* Info panel */}
-        <div className="md:w-[38%] p-7 md:p-10 flex flex-col justify-between gap-8">
-          <div className="space-y-5">
+        {/* Info panel — on mobile: padded content + sticky footer CTA */}
+        <div className="md:w-[38%] md:p-10 md:flex md:flex-col md:justify-between md:gap-8">
+          <div className="space-y-5 px-6 pt-7 pb-4 md:p-0">
             <h2 className="font-serif text-2xl md:text-3xl text-carbon leading-tight">
               {obra.titulo}
             </h2>
@@ -74,15 +74,18 @@ export default function Modal({ obra, onClose }) {
             </dl>
           </div>
 
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 w-full py-3.5 px-6 bg-carbon text-canvas text-sm font-sans tracking-wide hover:bg-gray-800 active:bg-gray-900 transition-colors duration-150"
-          >
-            <WhatsAppIcon />
-            Consultar por WhatsApp
-          </a>
+          {/* Sticky on mobile, normal flow on desktop */}
+          <div className="sticky bottom-0 md:static px-6 pb-6 pt-4 md:p-0 bg-canvas md:bg-transparent border-t border-gray-100 md:border-0">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-carbon text-canvas text-sm font-sans tracking-wide hover:bg-gray-800 active:bg-gray-900 transition-colors duration-150"
+            >
+              <WhatsAppIcon />
+              Consultar por WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </div>

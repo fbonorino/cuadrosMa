@@ -1,7 +1,7 @@
 export default function Gallery({ obras, onSelect }) {
   return (
-    <main className="px-4 py-10 md:px-8 lg:px-16">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+    <main className="px-4 py-8 md:px-8 md:py-12 lg:px-16">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
         {obras.map((obra) => (
           <GalleryCard key={obra.id} obra={obra} onSelect={onSelect} />
         ))}
@@ -29,7 +29,7 @@ function GalleryCard({ obra, onSelect }) {
           decoding="async"
         />
       </div>
-      <p className="mt-2 font-serif text-sm text-carbon tracking-wide leading-snug">
+      <p className="mt-3 font-serif text-base md:text-sm text-carbon tracking-wide leading-snug">
         {obra.titulo}
       </p>
     </article>
