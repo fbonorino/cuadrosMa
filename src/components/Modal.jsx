@@ -89,7 +89,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
       )}
 
       <div
-        className="relative bg-canvas w-full h-full md:h-auto md:max-w-4xl md:max-h-[92vh] md:flex shadow-2xl overflow-y-auto"
+        className="relative bg-canvas w-full h-full md:h-auto md:max-w-4xl md:max-h-[92vh] md:flex md:rounded-sm shadow-2xl overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}

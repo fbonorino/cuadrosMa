@@ -20,7 +20,7 @@ function GalleryCard({ obra, onSelect }) {
       onKeyDown={(e) => e.key === 'Enter' && onSelect()}
       aria-label={`Ver detalle de ${obra.titulo}`}
     >
-      <div className="overflow-hidden aspect-[4/5] bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06]">
+      <div className="overflow-hidden rounded-sm aspect-[4/5] bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06]">
         <img
           src={obra.imagen}
           alt={obra.titulo}
