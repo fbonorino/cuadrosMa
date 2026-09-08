@@ -47,7 +47,7 @@ export const obras = [
   {
     id: 6,
     codigo: "DSC00937",
-    imagen: "/images/compressed/DSC00937.jpg",
+    imagen: "/images/compressed/innerbloom.jpg",
     titulo: "Innerbloom",
     tecnica: "Acrílico sobre tela",
     medidas: "80 x 120 cm",
