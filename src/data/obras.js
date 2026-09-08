@@ -2,7 +2,7 @@ export const obras = [
   {
     id: 1,
     codigo: "DSC00891",
-    imagen: "/images/DSC00891.jpg",
+    imagen: "/images/compressed/DSC00891.jpg",
     titulo: "Abedules de Otoño",
     tecnica: "Acrílico sobre tela",
     medidas: null,
@@ -11,7 +11,7 @@ export const obras = [
   {
     id: 2,
     codigo: "DSC00907",
-    imagen: "/images/DSC00907.jpg",
+    imagen: "/images/compressed/DSC00907.jpg",
     titulo: "Campo de Girasoles",
     tecnica: "Acrílico sobre tela",
     medidas: null,
@@ -20,7 +20,7 @@ export const obras = [
   {
     id: 3,
     codigo: "DSC00926",
-    imagen: "/images/DSC00926.jpg",
+    imagen: "/images/compressed/DSC00926.jpg",
     titulo: "Pradera Multicolor",
     tecnica: "Acrílico sobre tela",
     medidas: null,
@@ -29,7 +29,7 @@ export const obras = [
   {
     id: 4,
     codigo: "DSC00932",
-    imagen: "/images/DSC00932.jpg",
+    imagen: "/images/compressed/DSC00932.jpg",
     titulo: "Campo Dorado",
     tecnica: "Acrílico sobre tela",
     medidas: null,
@@ -38,7 +38,7 @@ export const obras = [
   {
     id: 5,
     codigo: "DSC00935",
-    imagen: "/images/DSC00935.jpg",
+    imagen: "/images/compressed/DSC00935.jpg",
     titulo: "Margaritas de Montaña",
     tecnica: "Acrílico sobre tela",
     medidas: null,
@@ -47,7 +47,7 @@ export const obras = [
   {
     id: 6,
     codigo: "DSC00937",
-    imagen: "/images/DSC00937.jpg",
+    imagen: "/images/compressed/DSC00937.jpg",
     titulo: "Jardín Pastel",
     tecnica: "Acrílico sobre tela",
     medidas: null,
