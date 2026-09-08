@@ -10,11 +10,8 @@ export default function Header() {
       <p className="font-sans text-xs md:text-sm text-gray-400 tracking-widest uppercase mb-3 md:mb-4">
         Visual Artist
       </p>
-      <p className="font-sans text-xs md:text-sm text-gray-500 max-w-md mx-auto mb-1 leading-relaxed">
-        Hay originales y reproducciones de alta calidad disponibles en color y en blanco y negro. Consultar por muestras.
-      </p>
-      <p className="font-sans text-xs md:text-sm text-gray-400 max-w-md mx-auto mb-5 md:mb-6 leading-relaxed italic">
-        Originals and high-quality reproductions available in color and black and white. Inquire for samples.
+      <p className="font-sans text-xs md:text-sm text-gray-500 max-w-md mx-auto mb-5 md:mb-6 leading-relaxed">
+        Se encuentran disponibles obras originales y reproducciones de alta calidad, en color y en blanco y negro. Consulte por muestras.
       </p>
       <a
         href="https://www.instagram.com/constanzabellomo/"
