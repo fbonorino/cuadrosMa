@@ -1,12 +1,21 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 
 const WHATSAPP_NUMBER = '5491160593598'
 
-export default function Modal({ obra, onClose }) {
-  const handleKeyDown = useCallback(
-    (e) => { if (e.key === 'Escape') onClose() },
-    [onClose]
-  )
+export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
+  const obra = obras[selectedIndex]
+  const touchStartX = useRef(null)
+
+  const navigate = useCallback((dir) => {
+    const next = selectedIndex + dir
+    if (next >= 0 && next < obras.length) onNavigate(next)
+  }, [selectedIndex, obras.length, onNavigate])
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') onClose()
+    if (e.key === 'ArrowRight') navigate(1)
+    if (e.key === 'ArrowLeft') navigate(-1)
+  }, [onClose, navigate])
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
@@ -17,9 +26,23 @@ export default function Modal({ obra, onClose }) {
     }
   }, [handleKeyDown])
 
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return
+    const delta = touchStartX.current - e.changedTouches[0].clientX
+    if (Math.abs(delta) > 50) navigate(delta > 0 ? 1 : -1)
+    touchStartX.current = null
+  }
+
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hola! Quería consultar por el cuadro "${obra.titulo}"`
   )}`
+
+  const hasPrev = selectedIndex > 0
+  const hasNext = selectedIndex < obras.length - 1
 
   return (
     <div
@@ -29,7 +52,7 @@ export default function Modal({ obra, onClose }) {
       aria-modal="true"
       aria-label={`Detalle de ${obra.titulo}`}
     >
-      {/* Close button — always visible */}
+      {/* Close button */}
       <button
         onClick={onClose}
         className="fixed top-4 right-4 z-20 p-2.5 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow"
@@ -41,20 +64,58 @@ export default function Modal({ obra, onClose }) {
         </svg>
       </button>
 
+      {/* Desktop prev/next arrows */}
+      {hasPrev && (
+        <button
+          onClick={(e) => { e.stopPropagation(); navigate(-1) }}
+          className="hidden md:flex fixed left-4 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
+          aria-label="Anterior"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+      )}
+      {hasNext && (
+        <button
+          onClick={(e) => { e.stopPropagation(); navigate(1) }}
+          className="hidden md:flex fixed right-4 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
+          aria-label="Siguiente"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      )}
+
       <div
         className="relative bg-canvas w-full h-full md:h-auto md:max-w-4xl md:max-h-[92vh] md:flex shadow-2xl overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
-        {/* Image — full width on mobile, left panel on desktop */}
-        <div className="md:w-[62%] bg-gray-50 flex items-center justify-center shrink-0">
+        {/* Image panel */}
+        <div className="md:w-[62%] bg-gray-50 flex items-center justify-center shrink-0 relative">
           <img
+            key={obra.id}
             src={obra.imagen}
             alt={obra.titulo}
             className="w-full object-contain max-h-[58vh] md:max-h-[92vh]"
           />
+          {/* Dot indicators — mobile only */}
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
+            {obras.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => onNavigate(i)}
+                className={`w-1.5 h-1.5 rounded-full transition-colors duration-150 ${i === selectedIndex ? 'bg-carbon' : 'bg-black/20'}`}
+                aria-label={`Ir a obra ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Info panel — on mobile: padded content + sticky footer CTA */}
+        {/* Info panel */}
         <div className="md:w-[38%] md:p-10 md:flex md:flex-col md:justify-between md:gap-8">
           <div className="space-y-5 px-6 pt-7 pb-4 md:p-0">
             <h2 className="font-serif text-2xl md:text-3xl text-carbon leading-tight">
