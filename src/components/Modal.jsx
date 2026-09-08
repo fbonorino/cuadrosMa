@@ -150,6 +150,10 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
                   <dd className="text-carbon leading-relaxed">{obra.descripcion}</dd>
                 </div>
               )}
+              <div>
+                <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Disponibilidad</dt>
+                <dd className="text-carbon leading-relaxed">Se encuentran disponibles obras originales y reproducciones de alta calidad, en color y en blanco y negro. Consulte por muestras.</dd>
+              </div>
             </dl>
           </div>
 
