@@ -1,0 +1,43 @@
+export default function Header() {
+  return (
+    <header className="py-12 px-6 text-center border-b border-gray-100">
+      <h1 className="font-serif text-4xl md:text-5xl tracking-wide text-carbon mb-3">
+        Constanza Bellomo
+      </h1>
+      <p className="font-sans text-sm text-gray-400 tracking-widest uppercase mb-4">
+        Visual Artist
+      </p>
+      <a
+        href="https://www.instagram.com/constanzabellomo/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-carbon transition-colors duration-200"
+        aria-label="Instagram de Constanza Bellomo"
+      >
+        <InstagramIcon />
+        <span className="font-sans">@constanzabellomo</span>
+      </a>
+    </header>
+  )
+}
+
+function InstagramIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+    </svg>
+  )
+}
