@@ -95,12 +95,12 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
         onTouchEnd={handleTouchEnd}
       >
         {/* Image panel */}
-        <div className="md:w-[62%] bg-gray-50 flex items-center justify-center shrink-0 relative">
+        <div className="md:w-[62%] h-[58vh] md:h-auto md:max-h-[92vh] bg-gray-50 shrink-0 relative">
           <img
             key={obra.id}
             src={obra.imagen}
             alt={obra.titulo}
-            className="w-full object-contain max-h-[58vh] md:max-h-[92vh]"
+            className="w-full h-full object-contain object-center"
           />
           {/* Dot indicators — mobile only */}
           <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
