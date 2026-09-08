@@ -2,7 +2,7 @@ export const obras = [
   {
     id: 1,
     codigo: "DSC00891",
-    imagen: "/images/compressed/DSC00891.jpg",
+    imagen: "/images/compressed/abedules-de-otono.jpg",
     titulo: "Abedules de Otoño",
     tecnica: "Acrílico sobre tela",
     medidas: "70 x 100 cm",
@@ -11,7 +11,7 @@ export const obras = [
   {
     id: 2,
     codigo: "DSC00907",
-    imagen: "/images/compressed/DSC00907.jpg",
+    imagen: "/images/compressed/la-inmortalidad.jpg",
     titulo: "La inmortalidad",
     tecnica: "Acrílico sobre tela",
     medidas: "80 x 100 cm",
@@ -20,7 +20,7 @@ export const obras = [
   {
     id: 3,
     codigo: "DSC00926",
-    imagen: "/images/compressed/DSC00926.jpg",
+    imagen: "/images/compressed/pradera-multicolor.jpg",
     titulo: "Pradera Multicolor",
     tecnica: "Acrílico sobre tela",
     medidas: "50 x 110 cm",
@@ -29,7 +29,7 @@ export const obras = [
   {
     id: 4,
     codigo: "DSC00932",
-    imagen: "/images/compressed/DSC00932.jpg",
+    imagen: "/images/compressed/campo-dorado.jpg",
     titulo: "Campo Dorado",
     tecnica: "Acrílico sobre tela",
     medidas: "70 x 100 cm",
@@ -38,7 +38,7 @@ export const obras = [
   {
     id: 5,
     codigo: "DSC00935",
-    imagen: "/images/compressed/DSC00935.jpg",
+    imagen: "/images/compressed/alaska.jpg",
     titulo: "Alaska",
     tecnica: "Acrílico sobre tela",
     medidas: "50 x 70 cm",
