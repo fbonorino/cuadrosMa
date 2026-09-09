@@ -1,4 +1,8 @@
+const FEATURED_COUNT = 3
+
 export default function Gallery({ obras, onSelect }) {
+  const featured = obras.slice(0, FEATURED_COUNT)
+
   return (
     <section className="bg-carbon">
       <main className="px-4 py-20 md:px-10 md:py-28 lg:px-20">
@@ -9,9 +13,17 @@ export default function Gallery({ obras, onSelect }) {
           </p>
         </div>
         <div className="flex flex-col gap-16 md:gap-24 max-w-4xl mx-auto">
-          {obras.map((obra, index) => (
+          {featured.map((obra, index) => (
             <GalleryCard key={obra.id} obra={obra} onSelect={() => onSelect(index)} />
           ))}
+        </div>
+        <div className="mt-16 md:mt-24 flex justify-center">
+          <a
+            href="#catalogo"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 border border-white/25 text-canvas text-xs font-sans tracking-[0.2em] uppercase hover:bg-white hover:text-carbon hover:border-white transition-colors duration-200"
+          >
+            Ver catálogo completo
+          </a>
         </div>
       </main>
     </section>
