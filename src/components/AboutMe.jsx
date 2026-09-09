@@ -75,7 +75,7 @@ export default function AboutMe() {
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center gap-10 md:gap-16">
-          <div ref={imagesRef} className="grid grid-cols-2 gap-3 md:gap-4 md:w-1/2 shrink-0">
+          <div ref={imagesRef} className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-4 md:w-1/2 shrink-0">
             {PHOTOS.map((photo, index) => (
               <div
                 key={photo.src}
@@ -87,7 +87,7 @@ export default function AboutMe() {
                 <button
                   type="button"
                   onClick={() => setLightbox(photo)}
-                  className="block w-full aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] transition-all duration-300 ease-out hover:scale-[1.04] hover:shadow-[0_16px_40px_rgba(0,0,0,0.20)] focus:outline-none focus-visible:ring-2 focus-visible:ring-carbon focus-visible:ring-offset-2"
+                  className="block w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] transition-all duration-300 ease-out hover:scale-[1.04] hover:shadow-[0_16px_40px_rgba(0,0,0,0.20)] focus:outline-none focus-visible:ring-2 focus-visible:ring-carbon focus-visible:ring-offset-2"
                   aria-label={`Ampliar ${photo.alt}`}
                 >
                   <img
@@ -103,15 +103,24 @@ export default function AboutMe() {
           </div>
 
           <div className="md:w-1/2">
-            <div className="max-w-[60ch] mx-auto md:mx-0 flex flex-col gap-5">
-              {PARRAFOS.map((parrafo, index) => (
-                <p
-                  key={index}
-                  className="font-sans text-sm md:text-base text-gray-600 leading-loose"
-                >
-                  {parrafo}
-                </p>
-              ))}
+            <div className="max-w-[60ch] mx-auto md:mx-0 flex flex-col gap-6">
+              {PARRAFOS.map((parrafo, index) =>
+                index === 2 ? (
+                  <p
+                    key={index}
+                    className="font-serif text-xl md:text-2xl text-carbon leading-snug border-l-2 border-gray-300 pl-5 py-1"
+                  >
+                    {parrafo}
+                  </p>
+                ) : (
+                  <p
+                    key={index}
+                    className="font-sans text-sm md:text-base text-gray-600 leading-loose"
+                  >
+                    {parrafo}
+                  </p>
+                )
+              )}
             </div>
           </div>
         </div>
