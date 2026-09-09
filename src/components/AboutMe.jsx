@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const PARRAFOS = [
   'Soy Constanza Bellomo, artista plástica por intuición.',
@@ -37,32 +37,6 @@ function useInViewOnce(threshold = 0.2) {
 
 export default function AboutMe() {
   const [imagesRef, imagesInView] = useInViewOnce()
-  const [lightbox, setLightbox] = useState(null)
-
-  const closeLightbox = useCallback(() => {
-    setLightbox(null)
-    // Closing via Escape leaves the triggering photo focused, and that
-    // keydown flips the browser's input-modality tracking to "keyboard" —
-    // which retroactively makes the still-focused button match
-    // :focus-visible, showing a ring that looks like a stray border.
-    // Blurring on close avoids that regardless of how the lightbox closed.
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!lightbox) return
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') closeLightbox()
-    }
-    document.addEventListener('keydown', handleKeyDown)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = ''
-    }
-  }, [lightbox, closeLightbox])
 
   return (
     <section className="bg-canvas px-4 pt-16 pb-[100px] md:px-10 md:pt-24 md:pb-[150px] lg:px-20">
@@ -84,20 +58,15 @@ export default function AboutMe() {
                 }`}
                 style={{ transitionDelay: imagesInView ? `${index * 120}ms` : '0ms' }}
               >
-                <button
-                  type="button"
-                  onClick={() => setLightbox(photo)}
-                  className="block w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] transition-all duration-300 ease-out hover:scale-[1.04] hover:shadow-[0_16px_40px_rgba(0,0,0,0.20)] focus:outline-none focus-visible:ring-2 focus-visible:ring-carbon focus-visible:ring-offset-2"
-                  aria-label={`Ampliar ${photo.alt}`}
-                >
+                <div className="group w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06]">
                   <img
                     src={photo.src}
                     alt={photo.alt}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.06]"
                     loading="lazy"
                     decoding="async"
                   />
-                </button>
+                </div>
               </div>
             ))}
           </div>
@@ -125,33 +94,6 @@ export default function AboutMe() {
           </div>
         </div>
       </div>
-
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-6"
-          onClick={closeLightbox}
-          role="dialog"
-          aria-modal="true"
-          aria-label={lightbox.alt}
-        >
-          <button
-            onClick={closeLightbox}
-            className="fixed top-4 right-4 z-20 p-2.5 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow"
-            aria-label="Cerrar"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-          <img
-            src={lightbox.src}
-            alt={lightbox.alt}
-            className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
     </section>
   )
 }
