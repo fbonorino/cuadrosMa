@@ -53,16 +53,16 @@ export default function AboutMe() {
             {PHOTOS.map((photo, index) => (
               <div
                 key={photo.src}
-                className={`transition-all duration-700 ease-out ${
+                className={`group transition-[opacity,transform] duration-700 ease-out ${
                   imagesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
                 }`}
                 style={{ transitionDelay: imagesInView ? `${index * 120}ms` : '0ms' }}
               >
-                <div className="group w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06]">
+                <div className="w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] transition-transform duration-300 ease-out group-hover:scale-[1.06]">
                   <img
                     src={photo.src}
                     alt={photo.alt}
-                    className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.06]"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
                   />
