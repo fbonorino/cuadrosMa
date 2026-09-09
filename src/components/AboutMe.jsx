@@ -72,24 +72,15 @@ export default function AboutMe() {
           </div>
 
           <div className="md:w-1/2">
-            <div className="max-w-[60ch] mx-auto md:mx-0 flex flex-col gap-6">
-              {PARRAFOS.map((parrafo, index) =>
-                index === 2 ? (
-                  <p
-                    key={index}
-                    className="font-serif text-xl md:text-2xl text-carbon leading-snug border-l-2 border-gray-300 pl-5 py-1"
-                  >
-                    {parrafo}
-                  </p>
-                ) : (
-                  <p
-                    key={index}
-                    className="font-sans text-sm md:text-base text-gray-600 leading-loose"
-                  >
-                    {parrafo}
-                  </p>
-                )
-              )}
+            <div className="max-w-[60ch] mx-auto md:mx-0 flex flex-col gap-5">
+              {PARRAFOS.map((parrafo, index) => (
+                <p
+                  key={index}
+                  className="font-sans text-base md:text-lg text-gray-700 leading-relaxed"
+                >
+                  {parrafo}
+                </p>
+              ))}
             </div>
           </div>
         </div>
