@@ -69,112 +69,121 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
         </svg>
       </button>
 
-      {/* Prev/next arrows */}
-      {hasPrev && (
-        <button
-          onClick={(e) => { e.stopPropagation(); navigate(-1) }}
-          className="flex fixed left-4 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
-          aria-label="Anterior"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
-      )}
-      {hasNext && (
-        <button
-          onClick={(e) => { e.stopPropagation(); navigate(1) }}
-          className="flex fixed right-4 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
-          aria-label="Siguiente"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </button>
-      )}
-
+      {/* Wrapper: sizes itself to the card (arrows are absolutely positioned so
+          they don't affect this box), giving the arrows a frame of reference
+          that's the card's own edges rather than the viewport's. */}
       <div
-        ref={scrollerRef}
-        className="relative bg-canvas w-full h-full md:h-auto md:max-w-4xl md:max-h-[92vh] md:flex md:items-start md:rounded-sm shadow-2xl overflow-y-auto"
+        className="relative w-full h-full md:w-auto md:h-auto flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
       >
-        {/* Image panel */}
-        <div className="md:w-[62%] h-[58dvh] md:h-auto bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
-          <img
-            key={obra.id}
-            src={obra.imagen}
-            alt={obra.titulo}
-            className="max-w-full max-h-full md:max-h-[92vh] w-auto h-auto object-contain block"
-          />
-          {/* Dot indicators — mobile only */}
-          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
-            {obras.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => onNavigate(i)}
-                className={`w-1.5 h-1.5 rounded-full transition-colors duration-150 ${i === selectedIndex ? 'bg-carbon' : 'bg-black/20'}`}
-                aria-label={`Ir a obra ${i + 1}`}
-              />
-            ))}
-          </div>
-        </div>
+        {/* Prev/next arrows — anchored to the card's edges, not the viewport */}
+        {hasPrev && (
+          <button
+            onClick={(e) => { e.stopPropagation(); navigate(-1) }}
+            className="flex absolute left-4 md:-left-16 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
+            aria-label="Anterior"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+        )}
+        {hasNext && (
+          <button
+            onClick={(e) => { e.stopPropagation(); navigate(1) }}
+            className="flex absolute right-4 md:-right-16 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
+            aria-label="Siguiente"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        )}
 
-        {/* Info panel */}
-        <div className="md:w-[38%] md:p-10 md:flex md:flex-col md:justify-between md:gap-8">
-          <div className="space-y-5 px-6 pt-7 pb-4 md:p-0">
-            <h2 className="font-serif text-2xl md:text-3xl text-carbon leading-tight">
-              {obra.titulo}
-            </h2>
-            {!obra.disponible && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-800 text-white text-[10px] font-sans tracking-[0.18em] uppercase">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                Vendido
-              </span>
-            )}
-            <dl className="space-y-4 text-sm font-sans text-gray-500">
-              <div>
-                <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Técnica</dt>
-                <dd className="text-carbon">{obra.tecnica}</dd>
-              </div>
-              {obra.medidas && (
-                <div>
-                  <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Medidas</dt>
-                  <dd className="text-carbon">{obra.medidas}</dd>
-                </div>
-              )}
-              {obra.descripcion && (
-                <div>
-                  <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Descripción</dt>
-                  <dd className="text-carbon leading-relaxed">{obra.descripcion}</dd>
-                </div>
-              )}
-              <div>
-                <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Disponibilidad</dt>
-                <dd className="text-carbon leading-relaxed">Se encuentran disponibles obras originales y reproducciones de alta calidad, en color y en blanco y negro. Consulte por muestras.</dd>
-              </div>
-            </dl>
+        <div
+          ref={scrollerRef}
+          className="relative bg-canvas w-full h-full md:h-auto md:w-auto md:max-w-[1200px] md:max-h-[85vh] md:flex md:rounded-sm shadow-2xl overflow-y-auto"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Image panel — no explicit height at md+, so it stretches (default
+              align-items: stretch) to match the info panel's height, and the
+              img inside is capped by max-h-full against that resolved height. */}
+          <div className="md:w-[62%] h-[58dvh] md:h-auto md:max-h-[85vh] bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
+            <img
+              key={obra.id}
+              src={obra.imagen}
+              alt={obra.titulo}
+              className="max-w-full max-h-full w-auto h-auto object-contain block"
+            />
+            {/* Dot indicators — mobile only */}
+            <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
+              {obras.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => onNavigate(i)}
+                  className={`w-1.5 h-1.5 rounded-full transition-colors duration-150 ${i === selectedIndex ? 'bg-carbon' : 'bg-black/20'}`}
+                  aria-label={`Ir a obra ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
 
-          {/* Sticky on mobile, normal flow on desktop */}
-          <div className="sticky bottom-0 md:static px-6 pb-6 pt-4 md:p-0 bg-canvas md:bg-transparent border-t border-gray-100 md:border-0">
-            {obra.disponible ? (
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-carbon text-canvas text-sm font-sans tracking-wide hover:bg-gray-800 active:bg-gray-900 transition-colors duration-150"
-              >
-                <WhatsAppIcon />
-                Consultar por WhatsApp
-              </a>
-            ) : (
-              <div className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-gray-100 text-gray-400 text-sm font-sans tracking-wide cursor-default select-none">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-                Esta obra ya no está disponible
-              </div>
-            )}
+          {/* Info panel */}
+          <div className="md:w-[38%] md:p-10 md:flex md:flex-col md:justify-between md:gap-8">
+            <div className="space-y-5 px-6 pt-7 pb-4 md:p-0">
+              <h2 className="font-serif text-2xl md:text-3xl text-carbon leading-tight">
+                {obra.titulo}
+              </h2>
+              {!obra.disponible && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-800 text-white text-[10px] font-sans tracking-[0.18em] uppercase">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                  Vendido
+                </span>
+              )}
+              <dl className="space-y-4 text-sm font-sans text-gray-500">
+                <div>
+                  <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Técnica</dt>
+                  <dd className="text-carbon">{obra.tecnica}</dd>
+                </div>
+                {obra.medidas && (
+                  <div>
+                    <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Medidas</dt>
+                    <dd className="text-carbon">{obra.medidas}</dd>
+                  </div>
+                )}
+                {obra.descripcion && (
+                  <div>
+                    <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Descripción</dt>
+                    <dd className="text-carbon leading-relaxed">{obra.descripcion}</dd>
+                  </div>
+                )}
+                <div>
+                  <dt className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Disponibilidad</dt>
+                  <dd className="text-carbon leading-relaxed">Se encuentran disponibles obras originales y reproducciones de alta calidad, en color y en blanco y negro. Consulte por muestras.</dd>
+                </div>
+              </dl>
+            </div>
+
+            {/* Sticky on mobile, normal flow on desktop */}
+            <div className="sticky bottom-0 md:static px-6 pb-6 pt-4 md:p-0 bg-canvas md:bg-transparent border-t border-gray-100 md:border-0">
+              {obra.disponible ? (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-carbon text-canvas text-sm font-sans tracking-wide hover:bg-gray-800 active:bg-gray-900 transition-colors duration-150"
+                >
+                  <WhatsAppIcon />
+                  Consultar por WhatsApp
+                </a>
+              ) : (
+                <div className="flex items-center justify-center gap-2.5 w-full py-4 md:py-3.5 px-6 bg-gray-100 text-gray-400 text-sm font-sans tracking-wide cursor-default select-none">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  Esta obra ya no está disponible
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
