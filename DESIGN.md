@@ -31,12 +31,12 @@ typography:
     fontWeight: 400
     lineHeight: 1.2
   body:
-    fontFamily: "Inter, system-ui, sans-serif"
+    fontFamily: "\"General Sans\", system-ui, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.6
   label:
-    fontFamily: "Inter, system-ui, sans-serif"
+    fontFamily: "\"General Sans\", system-ui, sans-serif"
     fontSize: "0.625rem"
     fontWeight: 500
     letterSpacing: "0.18em"
@@ -90,7 +90,7 @@ components:
 
 This is a system built to disappear. It behaves like museum wall text next to a painting: present, legible, structurally confident, and never louder than the work it labels. Everything neutral — the warm paper canvas, the near-black carbon ink, the barely-there shadows, the near-square corners — exists to let each painting's own color be the only saturated thing on the screen. The one deliberate exception is a single red-800 "Vendido" mark, used exclusively as a status signal, never as decoration.
 
-The type system reinforces the same restraint: a serif (Playfair Display) is reserved for names and titles — the artist's identity and the paintings' identity — while everything functional (labels, meta, buttons, navigation) runs in a plain, uppercase-tracked sans (Inter). That split is the system's clearest tell: serif means "this is a proper noun," sans means "this is an instruction or a fact."
+The type system reinforces the same restraint: a serif (Playfair Display) is reserved for names and titles — the artist's identity and the paintings' identity — while everything functional (labels, meta, buttons, navigation) runs in a plain, uppercase-tracked sans (General Sans). That split is the system's clearest tell: serif means "this is a proper noun," sans means "this is an instruction or a fact."
 
 **Key Characteristics:**
 - Warm neutral palette (off-white paper, near-black ink) with zero brand color — art supplies all saturation
@@ -125,7 +125,7 @@ Warm and deliberately quiet: paper-and-ink neutrals dominate so nothing competes
 ## Typography
 
 **Display/Title Font:** Playfair Display (with Georgia, serif fallback)
-**Body/Label Font:** Inter (with system-ui, sans-serif fallback)
+**Body/Label Font:** General Sans (with system-ui, sans-serif fallback)
 
 **Character:** A classic, editorial serif for anything that names a person or a piece of art, paired with a restrained, evenly-tracked sans for everything functional. The pairing reads as gallery signage: elegant proper nouns, plain-spoken instructions.
 
@@ -137,7 +137,7 @@ Warm and deliberately quiet: paper-and-ink neutrals dominate so nothing competes
 - **Label** (500, 0.625rem–0.75rem, letter-spacing 0.18em, uppercase): dt-labels ("Técnica", "Medidas", "Descripción"), the "Visual Artist" tagline, footer/nav micro-links, and the "Vendido" badge text.
 
 ### Named Rules
-**The Proper-Noun Serif Rule.** Playfair Display appears only where something is being named — the artist, a painting title. It never appears in labels, buttons, or body copy; Inter owns all of that.
+**The Proper-Noun Serif Rule.** Playfair Display appears only where something is being named — the artist, a painting title. It never appears in labels, buttons, or body copy; General Sans owns all of that.
 
 ## Layout
 
@@ -203,7 +203,7 @@ Square by default, softened only where an image needs to feel contained rather t
 - **Do** keep buttons and the sold pill at 0px radius while image containers and the modal stay at `rounded-sm` (2px) — the contrast between "sharp label" and "softened image" is intentional.
 - **Do** keep the gallery to 2 columns maximum, at every breakpoint, with 2:3 portrait plates — this is a room of large paintings, not a dense thumbnail wall.
 - **Do** show técnica + medidas as visible meta text under every gallery caption, not only inside the detail view.
-- **Do** reserve Playfair Display for names and titles only; everything else stays in Inter.
+- **Do** reserve Playfair Display for names and titles only; everything else stays in General Sans.
 - **Do** keep shadows soft and static (Card Lift / Floating Control / Overlay) — no hover-elevation animation beyond image scale and color transitions.
 
 ### Don't:
