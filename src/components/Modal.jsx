@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 
 const WHATSAPP_NUMBER = '5491160593598'
 
@@ -6,6 +6,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   const obra = obras[selectedIndex]
   const touchStartX = useRef(null)
   const scrollerRef = useRef(null)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   const navigate = useCallback((dir) => {
     const next = selectedIndex + dir
@@ -40,7 +41,12 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
 
   useEffect(() => {
     scrollerRef.current?.scrollTo({ top: 0 })
+    setIsScrolled(false)
   }, [selectedIndex])
+
+  const handleScroll = (e) => {
+    setIsScrolled(e.currentTarget.scrollTop > 4)
+  }
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hola! Vi el cuadro "${obra.titulo}" en Galería Bellomo y quería consultar por él.`
@@ -80,7 +86,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
         {hasPrev && (
           <button
             onClick={(e) => { e.stopPropagation(); navigate(-1) }}
-            className="flex absolute left-4 md:-left-16 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
+            className={`flex absolute left-4 md:-left-16 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-opacity duration-200 shadow items-center justify-center ${isScrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             aria-label="Anterior"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -91,7 +97,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
         {hasNext && (
           <button
             onClick={(e) => { e.stopPropagation(); navigate(1) }}
-            className="flex absolute right-4 md:-right-16 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-colors duration-150 shadow items-center justify-center"
+            className={`flex absolute right-4 md:-right-16 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 backdrop-blur-sm text-carbon hover:bg-white transition-opacity duration-200 shadow items-center justify-center ${isScrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             aria-label="Siguiente"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -103,6 +109,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
         <div
           ref={scrollerRef}
           className="relative bg-canvas w-full h-full md:h-auto md:w-auto md:max-w-[1200px] md:max-h-[85vh] md:flex md:rounded-sm shadow-2xl overflow-y-auto"
+          onScroll={handleScroll}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
