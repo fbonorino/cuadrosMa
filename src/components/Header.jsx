@@ -1,13 +1,13 @@
 export default function Header() {
   return (
     <header className="py-10 md:py-14 px-6 text-center border-b border-gray-100">
-      <p className="font-sans text-[10px] md:text-[11px] text-gray-300 tracking-[0.5em] uppercase mb-3 md:mb-4">
+      <p className="font-sans text-[10px] md:text-[11px] text-gray-500 tracking-[0.5em] uppercase mb-3 md:mb-4">
         Galería Bellomo
       </p>
       <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-semibold tracking-wide text-carbon mb-3 md:mb-4">
         Constanza Bellomo
       </h1>
-      <p className="font-sans text-[10px] md:text-[11px] text-gray-300 tracking-[0.5em] uppercase mb-6 md:mb-7">
+      <p className="font-sans text-[10px] md:text-[11px] text-gray-500 tracking-[0.5em] uppercase mb-6 md:mb-7">
         Visual Artist
       </p>
       <a

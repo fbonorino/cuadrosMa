@@ -55,7 +55,7 @@ export default function AboutMe() {
   }, [lightbox, closeLightbox])
 
   return (
-    <section className="bg-canvas px-4 py-[100px] md:px-10 md:py-[150px] lg:px-20">
+    <section className="bg-canvas px-4 pt-16 pb-[100px] md:px-10 md:pt-24 md:pb-[150px] lg:px-20">
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col items-center mb-16 md:mb-20">
           <span className="w-10 h-px bg-gray-300 mb-5" aria-hidden="true" />
