@@ -39,7 +39,17 @@ export default function AboutMe() {
   const [imagesRef, imagesInView] = useInViewOnce()
   const [lightbox, setLightbox] = useState(null)
 
-  const closeLightbox = useCallback(() => setLightbox(null), [])
+  const closeLightbox = useCallback(() => {
+    setLightbox(null)
+    // Closing via Escape leaves the triggering photo focused, and that
+    // keydown flips the browser's input-modality tracking to "keyboard" —
+    // which retroactively makes the still-focused button match
+    // :focus-visible, showing a ring that looks like a stray border.
+    // Blurring on close avoids that regardless of how the lightbox closed.
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
+  }, [])
 
   useEffect(() => {
     if (!lightbox) return
