@@ -2,7 +2,7 @@ export const obras = [
   {
     id: 1,
     codigo: "DSC00891",
-    imagen: "/images/compressed/abedules-de-otono.jpg",
+    imagen: "/images/compressed/abedules-de-otono.webp",
     titulo: "Abedules de Otoño",
     descripcion: "Troncos plateados se alzan sobre un suelo cubierto de flores silvestres. Una tarde quieta en el bosque, justo antes de que el frío lo cambie todo.",
     tecnica: "Acrílico sobre tela",
@@ -12,7 +12,7 @@ export const obras = [
   {
     id: 2,
     codigo: "DSC00907",
-    imagen: "/images/compressed/la-inmortalidad.jpg",
+    imagen: "/images/compressed/la-inmortalidad.webp",
     titulo: "La inmortalidad",
     descripcion: "Campo infinito de girasoles que buscan la luz con determinación incansable. Una celebración de lo que vuelve, de lo que no se rinde ante el paso del tiempo.",
     tecnica: "Acrílico sobre tela",
@@ -22,7 +22,7 @@ export const obras = [
   {
     id: 3,
     codigo: "DSC00926",
-    imagen: "/images/compressed/pradera-multicolor.jpg",
+    imagen: "/images/compressed/pradera-multicolor.webp",
     titulo: "Pradera Multicolor",
     descripcion: "Explosión de colores que convierte la pradera en una paleta viva. Cada flor suma su voz a un coro vibrante que celebra el verano.",
     tecnica: "Acrílico sobre tela",
@@ -32,7 +32,7 @@ export const obras = [
   {
     id: 4,
     codigo: "DSC00932",
-    imagen: "/images/compressed/campo-dorado.jpg",
+    imagen: "/images/compressed/campo-dorado.webp",
     titulo: "Campo Dorado",
     descripcion: "El sol se vuelca sobre los pastos y los convierte en oro puro. Una quietud dorada que invita a detenerse y respirar el paisaje.",
     tecnica: "Acrílico sobre tela",
@@ -42,7 +42,7 @@ export const obras = [
   {
     id: 5,
     codigo: "DSC00935",
-    imagen: "/images/compressed/alaska.jpg",
+    imagen: "/images/compressed/alaska.webp",
     titulo: "Alaska",
     descripcion: "Paisaje austero y salvaje, donde la naturaleza impone su propia grandeza. Colores fríos y puros que evocan la inmensidad del confín del mundo.",
     tecnica: "Acrílico sobre tela",
@@ -52,7 +52,7 @@ export const obras = [
   {
     id: 6,
     codigo: "DSC00937",
-    imagen: "/images/compressed/innerbloom.jpg",
+    imagen: "/images/compressed/innerbloom.webp",
     titulo: "Innerbloom",
     descripcion: "Flores de todos los colores brotan en un jardín que parece soñado. La suavidad de los pétalos contrasta con la intensidad de la vida que pulsa en cada tallo.",
     tecnica: "Acrílico sobre tela",
