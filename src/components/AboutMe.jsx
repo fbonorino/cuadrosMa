@@ -69,7 +69,7 @@ export default function AboutMe() {
             {PHOTOS.map((photo, index) => (
               <div
                 key={photo.src}
-                className={`transition-all duration-700 ease-out ${index === 1 ? 'mt-6' : ''} ${
+                className={`transition-all duration-700 ease-out ${
                   imagesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
                 }`}
                 style={{ transitionDelay: imagesInView ? `${index * 120}ms` : '0ms' }}
@@ -77,7 +77,7 @@ export default function AboutMe() {
                 <button
                   type="button"
                   onClick={() => setLightbox(photo)}
-                  className="block w-full aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] transition-all duration-300 ease-out hover:scale-[1.04] hover:shadow-[0_16px_40px_rgba(0,0,0,0.20)]"
+                  className="block w-full aspect-[3/4] overflow-hidden bg-gray-50 shadow-[0_2px_14px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.06] transition-all duration-300 ease-out hover:scale-[1.04] hover:shadow-[0_16px_40px_rgba(0,0,0,0.20)] focus:outline-none focus-visible:ring-2 focus-visible:ring-carbon focus-visible:ring-offset-2"
                   aria-label={`Ampliar ${photo.alt}`}
                 >
                   <img
