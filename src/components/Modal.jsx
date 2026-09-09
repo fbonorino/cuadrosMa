@@ -6,7 +6,29 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   const obra = obras[selectedIndex]
   const touchStartX = useRef(null)
   const scrollerRef = useRef(null)
+  const imgRef = useRef(null)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [infoMaxHeight, setInfoMaxHeight] = useState(null)
+
+  // Desktop only: clamp the info panel's height to the image's own rendered
+  // height (so the card's overall height is driven by the image, never
+  // stretched to match a taller text panel), letting the info panel scroll
+  // internally if its content doesn't fit. Mobile stacks the two panels
+  // vertically and is untouched by this (infoMaxHeight stays null there).
+  const syncInfoHeight = useCallback(() => {
+    if (window.innerWidth < 768) {
+      setInfoMaxHeight(null)
+      return
+    }
+    const h = imgRef.current?.getBoundingClientRect().height
+    if (h) setInfoMaxHeight(h)
+  }, [])
+
+  useEffect(() => {
+    syncInfoHeight()
+    window.addEventListener('resize', syncInfoHeight)
+    return () => window.removeEventListener('resize', syncInfoHeight)
+  }, [syncInfoHeight])
 
   const navigate = useCallback((dir) => {
     const next = selectedIndex + dir
@@ -108,20 +130,24 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
 
         <div
           ref={scrollerRef}
-          className="relative bg-canvas w-full h-full md:h-auto md:w-auto md:max-w-[1200px] md:max-h-[85vh] md:flex md:rounded-sm shadow-2xl overflow-y-auto"
+          className="relative bg-canvas w-full h-full md:h-auto md:w-auto md:max-w-[1200px] md:max-h-[85vh] md:flex md:items-start md:rounded-sm shadow-2xl overflow-y-auto"
           onScroll={handleScroll}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Image panel — no explicit height at md+, so it stretches (default
-              align-items: stretch) to match the info panel's height, and the
-              img inside is capped by max-h-full against that resolved height. */}
-          <div className="md:w-[62%] h-[58dvh] md:h-auto md:max-h-[85vh] bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
+          {/* Image panel — md:items-start on the row above means this panel is
+              never stretched to match the info panel; it always hugs the
+              image's own natural rendered size exactly, with zero gap on any
+              side, regardless of aspect ratio (wide/short, landscape, or
+              portrait alike). */}
+          <div className="md:w-[62%] h-[58dvh] md:h-auto bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
             <img
               key={obra.id}
+              ref={imgRef}
               src={obra.imagen}
               alt={obra.titulo}
-              className="max-w-full max-h-full w-auto h-auto object-contain block"
+              onLoad={syncInfoHeight}
+              className="max-w-full max-h-full md:max-h-[85vh] w-auto h-auto object-contain block"
             />
             {/* Dot indicators — mobile only */}
             <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
@@ -136,8 +162,13 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
             </div>
           </div>
 
-          {/* Info panel */}
-          <div className="md:w-[38%] md:p-10 md:flex md:flex-col md:justify-between md:gap-8">
+          {/* Info panel — clamped (desktop only) to the image's own rendered
+              height via infoMaxHeight, so it never forces the row/card taller
+              than the image; it scrolls internally instead. */}
+          <div
+            className="md:w-[38%] md:p-10 md:flex md:flex-col md:justify-between md:gap-8 md:overflow-y-auto"
+            style={infoMaxHeight ? { maxHeight: infoMaxHeight } : undefined}
+          >
             <div className="space-y-5 px-6 pt-7 pb-4 md:p-0">
               <h2 className="font-serif text-2xl md:text-3xl text-carbon leading-tight">
                 {obra.titulo}
