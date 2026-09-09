@@ -51,7 +51,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-0 md:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-0 md:p-6"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -95,18 +95,18 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
 
       <div
         ref={scrollerRef}
-        className="relative bg-canvas w-full h-full md:h-auto md:max-w-4xl md:max-h-[92vh] md:flex md:rounded-sm shadow-2xl overflow-y-auto"
+        className="relative bg-canvas w-full h-full md:h-auto md:max-w-4xl md:max-h-[92vh] md:flex md:items-start md:rounded-sm shadow-2xl overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
         {/* Image panel */}
-        <div className="md:w-[62%] h-[58dvh] md:h-auto md:max-h-[92vh] bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
+        <div className="md:w-[62%] h-[58dvh] md:h-auto bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
           <img
             key={obra.id}
             src={obra.imagen}
             alt={obra.titulo}
-            className="max-w-full max-h-full w-auto h-auto object-contain"
+            className="max-w-full max-h-full md:max-h-[92vh] w-auto h-auto object-contain block"
           />
           {/* Dot indicators — mobile only */}
           <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
