@@ -1,3 +1,5 @@
+import { INSTAGRAM_WEB_URL, openInstagram } from '../lib/openInstagram'
+
 export default function Header() {
   return (
     <header className="py-10 md:py-14 px-6 text-center border-b border-gray-100">
@@ -11,9 +13,10 @@ export default function Header() {
         Visual Artist
       </p>
       <a
-        href="https://www.instagram.com/constanzabellomo/"
+        href={INSTAGRAM_WEB_URL}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={openInstagram}
         className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-carbon transition-colors duration-200"
         aria-label="Instagram de Constanza Bellomo"
       >

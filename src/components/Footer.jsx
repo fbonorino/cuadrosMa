@@ -1,3 +1,5 @@
+import { INSTAGRAM_WEB_URL, openInstagram } from '../lib/openInstagram'
+
 const WHATSAPP_NUMBER = '5491160593598'
 
 export default function Footer() {
@@ -5,9 +7,10 @@ export default function Footer() {
     <footer className="border-t border-gray-100 py-10 px-6 text-center">
       <div className="flex items-center justify-center gap-6 mb-4">
         <a
-          href="https://www.instagram.com/constanzabellomo/"
+          href={INSTAGRAM_WEB_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={openInstagram}
           className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-carbon transition-colors duration-200 font-sans uppercase tracking-widest"
         >
           <InstagramIcon />
