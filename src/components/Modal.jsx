@@ -1,6 +1,17 @@
 import { useEffect, useCallback, useRef, useState } from 'react'
+import { TransformWrapper, TransformComponent, useTransformEffect } from 'react-zoom-pan-pinch'
 
 const WHATSAPP_NUMBER = '5491160593598'
+
+// Lives inside TransformWrapper's context to report scale changes upward —
+// react-zoom-pan-pinch only exposes scale via this hook/callback pattern,
+// not as a prop change we could read directly.
+function ZoomWatcher({ onScaleChange }) {
+  useTransformEffect(({ state }) => {
+    onScaleChange(state.scale)
+  })
+  return null
+}
 
 export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   const obra = obras[selectedIndex]
@@ -9,6 +20,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   const imgRef = useRef(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const [infoMaxHeight, setInfoMaxHeight] = useState(null)
+  const [isZoomed, setIsZoomed] = useState(false)
 
   // Desktop only: clamp the info panel's height to the image's own rendered
   // height (so the card's overall height is driven by the image, never
@@ -51,11 +63,18 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   }, [handleKeyDown])
 
   const handleTouchStart = (e) => {
+    // Only a single finger can start a swipe-to-navigate gesture — a pinch's
+    // two touches must never be misread as a swipe (e.touches[0] alone can't
+    // tell them apart, so we gate on touch count instead of just isZoomed).
+    if (isZoomed || e.touches.length !== 1) {
+      touchStartX.current = null
+      return
+    }
     touchStartX.current = e.touches[0].clientX
   }
 
   const handleTouchEnd = (e) => {
-    if (touchStartX.current === null) return
+    if (isZoomed || touchStartX.current === null || e.touches.length !== 0) return
     const delta = touchStartX.current - e.changedTouches[0].clientX
     if (Math.abs(delta) > 50) navigate(delta > 0 ? 1 : -1)
     touchStartX.current = null
@@ -64,6 +83,7 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
   useEffect(() => {
     scrollerRef.current?.scrollTo({ top: 0 })
     setIsScrolled(false)
+    setIsZoomed(false)
   }, [selectedIndex])
 
   const handleScroll = (e) => {
@@ -141,14 +161,43 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
               side, regardless of aspect ratio (wide/short, landscape, or
               portrait alike). */}
           <div className="md:w-[62%] h-[58dvh] md:h-auto bg-gray-50 shrink-0 relative flex items-center justify-center overflow-hidden">
-            <img
+            <TransformWrapper
               key={obra.id}
-              ref={imgRef}
-              src={obra.imagen}
-              alt={obra.titulo}
-              onLoad={syncInfoHeight}
-              className="max-w-full max-h-full md:max-h-[85vh] w-auto h-auto object-contain block"
-            />
+              initialScale={1}
+              minScale={1}
+              maxScale={5}
+              centerOnInit
+              limitToBounds
+              panning={{ disabled: !isZoomed }}
+              doubleClick={{ mode: 'reset' }}
+              wheel={{ step: 0.3 }}
+              pinch={{ step: 5 }}
+            >
+              <ZoomWatcher onScaleChange={(scale) => setIsZoomed(scale > 1.01)} />
+              {/* Only the wrapper is sized to the panel — its 100%/100% lets
+                  the image's max-w-full/max-h-full resolve against it. The
+                  content stays at the library's default fit-content so it
+                  hugs the image's own rendered box; stretching content to
+                  100% breaks the library's resize-alignment (it measures the
+                  unscaled content box to decide whether to fit/reset, and a
+                  content box pinned to the wrapper's size always reads as
+                  "already fits", snapping the zoom back after every gesture). */}
+              {/* touchAction: 'none' hands pinch/pan on this element entirely
+                  to the library — without it, real mobile browsers still run
+                  their own native page-pinch-zoom alongside (or instead of)
+                  our JS zoom, since calling preventDefault() in the touch
+                  handlers alone isn't consistently enough on iOS Safari. */}
+              <TransformComponent wrapperStyle={{ width: '100%', height: '100%', touchAction: 'none' }}>
+                <img
+                  ref={imgRef}
+                  src={obra.imagen}
+                  alt={obra.titulo}
+                  onLoad={syncInfoHeight}
+                  className={`max-w-full max-h-full md:max-h-[85vh] w-auto h-auto object-contain block select-none ${isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
+                  draggable={false}
+                />
+              </TransformComponent>
+            </TransformWrapper>
             {/* Dot indicators — mobile only */}
             <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden">
               {obras.map((_, i) => (
