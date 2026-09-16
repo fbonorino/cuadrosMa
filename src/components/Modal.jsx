@@ -209,6 +209,22 @@ export default function Modal({ obras, selectedIndex, onNavigate, onClose }) {
                 />
               ))}
             </div>
+
+            {/* Zoom affordance — faint hint that the image can be pinch/scroll
+                zoomed, hidden once the user has actually zoomed in. Bottom-left
+                (not top-right) to stay clear of the fixed close button and the
+                mobile dot indicators, which sit bottom-center. */}
+            <div
+              className={`pointer-events-none absolute bottom-3 left-3 p-2 rounded-full bg-black/20 text-white/70 transition-opacity duration-300 ${isZoomed ? 'opacity-0' : 'opacity-100'}`}
+              aria-hidden="true"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <line x1="11" y1="8" x2="11" y2="14" />
+                <line x1="8" y1="11" x2="14" y2="11" />
+              </svg>
+            </div>
           </div>
 
           {/* Info panel — clamped (desktop only) to the image's own rendered
