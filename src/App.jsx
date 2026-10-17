@@ -4,7 +4,7 @@ import Header from './components/Header.jsx'
 import AboutMe from './components/AboutMe.jsx'
 import Gallery from './components/Gallery.jsx'
 import Catalog from './components/Catalog.jsx'
-import Modal from './components/Modal.jsx'
+import Lightbox from './components/Lightbox.jsx'
 import Footer from './components/Footer.jsx'
 
 export default function App() {
@@ -17,14 +17,11 @@ export default function App() {
       <Gallery obras={obras} onSelect={setSelectedIndex} />
       <Catalog obras={obras} onSelect={setSelectedIndex} />
       <Footer />
-      {selectedIndex !== null && (
-        <Modal
-          obras={obras}
-          selectedIndex={selectedIndex}
-          onNavigate={setSelectedIndex}
-          onClose={() => setSelectedIndex(null)}
-        />
-      )}
+      <Lightbox
+        obras={obras}
+        openIndex={selectedIndex}
+        onClose={() => setSelectedIndex(null)}
+      />
     </div>
   )
 }

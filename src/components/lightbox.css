@@ -1,0 +1,166 @@
+/* Styles for the PhotoSwipe artwork viewer (Lightbox.jsx). Scoped to its own
+   class names so nothing here leaks into the rest of the site. */
+
+.pswp {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ---------------------------------------------------------------------------
+   Desktop (>=768px): side panel
+   ------------------------------------------------------------------------- */
+
+.obra-panel {
+  bottom: var(--obra-bar-h, 80px);
+  will-change: transform;
+  transition: transform 350ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   Mobile (<768px): native vertical scroll per slide — the artwork (a), then
+   the ficha (b). The scroller sits over PhotoSwipe's image inside the same
+   slide holder, so horizontal swipes and pinch still reach PhotoSwipe while
+   the browser handles the vertical scroll (touch-action: pan-y).
+   ------------------------------------------------------------------------- */
+
+.obra-holder {
+  /* Lets the image (a sibling subtree) follow its slide's scroll timeline */
+  timeline-scope: --obra-scroll;
+}
+
+.obra-scroller {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: y proximity;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  scroll-timeline: --obra-scroll y;
+}
+
+.obra-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* While the image is zoomed, the scroll belongs to PhotoSwipe's pan */
+.obra-scroller.is-zoomed {
+  overflow: hidden;
+  touch-action: none;
+}
+
+@media (min-width: 768px) {
+  .obra-scroller {
+    display: none;
+  }
+}
+
+.obra-stage {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  scroll-snap-align: start;
+}
+
+.obra-ficha {
+  scroll-snap-align: end;
+  padding-bottom: calc(var(--obra-bar-h, 124px) + 24px);
+}
+
+/* "Deslizá para ver la ficha" hint, just above the bottom bar */
+.obra-hint {
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(var(--obra-bar-h, 124px) + 14px);
+  transition: opacity 250ms ease;
+}
+
+.is-scrolled .obra-hint,
+.is-zoomed .obra-hint {
+  opacity: 0;
+}
+
+.obra-hint-arrow {
+  animation: obra-hint-nudge 1.8s ease-in-out infinite;
+}
+
+@keyframes obra-hint-nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* The artwork recedes as the ficha scrolls in: CSS scroll-driven animation
+   where supported (the JS fallback in Lightbox.jsx writes the same values
+   otherwise). Gated by .obra-sda, which JS sets only when supported. */
+@keyframes obra-recede {
+  from { transform: none; opacity: 1; }
+  to { transform: translateY(-22dvh) scale(0.85); opacity: 0.8; }
+}
+
+@keyframes obra-recede-fade {
+  from { opacity: 1; }
+  to { opacity: 0.8; }
+}
+
+@media (max-width: 767px) {
+  @supports (animation-timeline: scroll()) {
+    .obra-sda .obra-holder .pswp__img {
+      will-change: transform, opacity;
+      animation: obra-recede linear both;
+      animation-timeline: --obra-scroll;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Ficha blocks: staggered entrance (mobile on reveal, desktop on panel open)
+   ------------------------------------------------------------------------- */
+
+.obra-ficha-block {
+  opacity: 0;
+  transform: translateY(16px);
+  will-change: transform;
+  transition: opacity 300ms ease, transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.is-revealed .obra-ficha-block,
+.is-open .obra-ficha-block {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion: no parallax, no stagger, no slide — fades only
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .obra-panel {
+    transition: opacity 200ms ease;
+  }
+
+  .obra-panel:not(.is-open) {
+    opacity: 0;
+  }
+
+  .obra-hint-arrow {
+    animation: none;
+  }
+
+  .obra-ficha-block,
+  .is-revealed .obra-ficha-block,
+  .is-open .obra-ficha-block {
+    transform: none;
+    transition: opacity 200ms ease;
+    transition-delay: 0ms;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  @supports (animation-timeline: scroll()) {
+    .obra-sda .obra-holder .pswp__img {
+      animation-name: obra-recede-fade;
+    }
+  }
+}
