@@ -69,4 +69,14 @@ export const obras = [
     medidas: "80 x 100 cm",
     disponible: false,
   },
+  {
+    id: 8,
+    codigo: "atmosfera",
+    imagen: "/images/compressed/atmosfera.webp",
+    titulo: "Atmósfera",
+    descripcion: "Troncos esbeltos se elevan entre la bruma sobre una alfombra de flores violetas y doradas. En primer plano, flores blancas se abren como pequeñas luces en la mañana.",
+    tecnica: "Acrílico sobre tela",
+    medidas: "40 x 60 cm",
+    disponible: true,
+  },
 ];
